@@ -1,0 +1,74 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Run unit tests
+        run: |
+          pytest
+
+  train:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: EDA
+        run: |
+          python exploratory_data_analysis.py
+      
+      - name: Train model
+        run: |
+          python model_training.py
+
+      - name: Store artifact
+        run: |
+          # store model or artifacts to azure or s3
+
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs: train
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Deploy model
+        run: |
+          #deployment script
+          echo "Deploying model..."
+      
+      - name: Integration tests
+        run: |
+          python post_model_run.py
