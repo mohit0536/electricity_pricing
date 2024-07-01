@@ -1,0 +1,6 @@
+#Yaml 
+
+YAML file is a human readable format which can be easily interpreted by humans as well as machines.
+YAML files allow you to define the configuration of your CI/CD pipeline as code
+YAML helps in reproducibility CI/CD process can be reproduced consistently across different environments
+YAML have very good and can be used with most CI/CD tools like Jenkins, GitLab CI/CD, or GitHub Actions

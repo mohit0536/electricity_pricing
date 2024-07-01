@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: electricity_prices
+  template:
+    metadata:
+      labels:
+        app: electricity_prices
+    spec:
+      containers:
+      - name: electricity_prices-container
+        image: image_path
+        ports:
+        - containerPort: 4000
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 0.5Gi
+          limits:
+            memory: 512Mi
+            cpu: 1Gi
+        volumeMounts:
+        - name: model-data
+          mountPath: /data
+      volumes:
+      - name: model-data
+        persistentVolumeClaim:
+          claimName: model-data-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: electricity_prices
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000
+  type: LoadBalancer

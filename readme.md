@@ -24,11 +24,15 @@ project/
 ├── tests/
 │   ├── __init__.py
 │   ├── test_example.py
+│
+├── ci-cd/
+│   ├── ci-cd.py
+│   └── app-deployment.py
 |
 ├── .gitignore
 ├── requirements.txt
 ├── README.md
-└── ci-cd.yaml
+└── procfile
 └── Dockerfile
 ```
 
@@ -64,4 +68,46 @@ project/
 ```
 - Endpoint 
     python integration/post_model_run.py
+```
+
+## High Level Flow
+
+```
+  +-----------------------+
+  | Data Gathering       |
+  | , Preprocessing      |
+  | , code versioning    |
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  | Model Development     |
+  |                       |
+  |  +------+  +------+   |
+  |  | EDA  |  | Train|   |
+  |  +------+  +------+   |
+  |     |         |       |
+  |     v         v       |
+  |  +------+  +------+   |
+  |  | Eval |  |Valid.|   |
+  |  +------+  +------+   |
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  | CI/CD Integration     |
+  |                       |
+  | +------+  +------+    |
+  | | CI   |  | CD   |    |
+  | +------+  +------+    |
+  |     |         |       |
+  |     v         v       |
+  |  +------+  +------+   |
+  |  | Test |  |Deploy|   |
+  |  +------+  +------+   |
+  +-----------+-----------+
+              |
+  +-----------v-----------+  
+  | Monitoring and        | 
+  | Feedback Loop         |
+  +-----------------------+
+
 ```
